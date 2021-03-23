@@ -1,2 +1,2 @@
 # GuruDocker
-Docker Compose del servidor de servicios dockers
+Docker Compose del servidor de dockers
