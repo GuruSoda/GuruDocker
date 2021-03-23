@@ -1,0 +1,11 @@
+deb http://192.168.1.55:3142/ubuntu/ focal main restricted
+deb http://192.168.1.55:3142/ubuntu/ focal-updates main restricted
+deb http://192.168.1.55:3142/ubuntu/ focal universe
+deb http://192.168.1.55:3142/ubuntu/ focal-updates universe
+deb http://192.168.1.55:3142/ubuntu/ focal multiverse
+deb http://192.168.1.55:3142/ubuntu/ focal-updates multiverse
+deb http://192.168.1.55:3142/ubuntu/ focal-backports main restricted universe multiverse
+deb http://192.168.1.55:3142/ubuntu/ focal-security main restricted
+deb http://192.168.1.55:3142/ubuntu/ focal-security universe
+deb http://192.168.1.55:3142/ubuntu/ focal-security multiverse
+

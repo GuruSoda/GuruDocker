@@ -1,0 +1,108 @@
+version: "3"
+services:
+
+  registry:
+    restart: always
+    image: registry:2
+    ports:
+      - "5000:5000"
+    volumes:
+      - registry:/var/lib/registry
+
+  portainer:
+    image: portainer/portainer-ce 
+    restart: always
+    ports:
+      - "8000:8000"
+      - "9000:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+    depends_on:
+      - registry
+
+  cacher:
+#    image: www.planetaguru.com.ar/cacher
+    build: ./cacher
+    ports:
+      - "3142:3142"
+    hostname: cacher
+    restart: unless-stopped
+    volumes:
+      - cacher-ng:/var/cache/apt-cacher-ng
+
+  musica:
+    image: www.planetaguru.com.ar/listador
+    ports:
+      - "28002:3000"
+    hostname: list-musica
+    restart: unless-stopped
+    volumes:
+      - musica:/mnt/share
+    depends_on:
+      - registry
+
+  juegos:
+    image: www.planetaguru.com.ar/listador
+    ports:
+      - "28001:3000"
+    hostname: list-juegos
+    restart: unless-stopped
+    volumes:
+      - juegos:/mnt/share
+    depends_on:
+      - registry
+
+  chicas:
+    image: www.planetaguru.com.ar/listador
+    ports:
+      - "28003:3000"
+    hostname: list-chicas
+    restart: unless-stopped
+    volumes:
+      - chicas:/mnt/share
+    depends_on:
+      - registry
+
+  downloads:
+    image: www.planetaguru.com.ar/listador
+    ports:
+      - "28004:3000"
+    hostname: list-downloads
+    restart: unless-stopped
+    volumes:
+      - downloads:/mnt/share
+    depends_on:
+      - registry
+
+volumes:
+  cacher-ng:
+    driver: local
+  portainer_data:
+    driver: local
+  registry:
+     driver_opts:
+      type: "nfs"
+      o: "addr=192.168.1.201,nolock,soft,rw"
+      device: ":/nfs/Docker/registry"
+  chicas:
+    driver_opts:
+      type: "nfs"
+      o: "addr=192.168.1.201,nolock,soft,ro"
+      device: ":/nfs/Chicas"
+  musica:
+    driver_opts:
+      type: "nfs"
+      o: "addr=192.168.1.201,nolock,soft,ro"
+      device: ":/nfs/Musica"
+  juegos:
+    driver_opts:
+      type: "nfs"
+      o: "addr=192.168.1.201,nolock,soft,ro"
+      device: ":/nfs/Juegos"
+  downloads:
+    driver_opts:
+      type: "nfs"
+      o: "addr=192.168.1.201,nolock,soft,rw"
+      device: ":/nfs/Instaladores/downloads"
+ 
